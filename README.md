@@ -1,3 +1,3 @@
 # Conway's game of life
 
-[https://en.wikipedia.org/wiki/File:Gospers_glider_gun.gif]
+![](www.github.com/sepehrskysh1376/GameOfLife/Gospers_glider_gun.gif)
