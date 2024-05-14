@@ -6,7 +6,6 @@
 * The Game of Life (Life) is a cellular automaton created by John Horton Conway.
 * A Zero-player game
 * It is Turing complete and can simulate a universal constructor or any other Turing machine.
-* 
 
 ## Rules
 1. Any live cell with fewer than two live neighbors dies, as if by underpopulation.
