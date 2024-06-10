@@ -10,8 +10,9 @@ A = [0 0 0 0 0 0 0 0 0
 
 for row in 2:size(A)[1]-1
     for col in 2:size(A)[2]-1
-        println(A[row, col])
+        print("$(A[row, col]) ")
     end
+    print("\n")
 end
 
 A0 = [1 1 0 
