@@ -35,7 +35,7 @@ end
 
 # Catching Exception about G value
 if G == 2
-    throw("Something about the G valuation is gone wrong!!!")
+    throw("Something about the G value has gone wrong!!!")
 end
 
 println(A0 .* K)
