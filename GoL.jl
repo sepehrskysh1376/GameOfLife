@@ -48,14 +48,14 @@ function worldPrint(world::Array, shape = "3.txt")
     for row in 1:size(world)[1]
 
         for col in 1:size(world)[2]
-            print("$(shapes[world[row, col]])")
+            print("$(shapes[world[row, col]]) ")
         end
 
         print("\n")
     end
 end
 
-worldPrint(A)
+worldPrint(A, "2.txt")
 
     # The Update function
 function rule(A::Array, K::Array)
@@ -107,7 +107,7 @@ for i in 1:size(ANext)[1]
 end
 
 
-worldPrint(ANext)
+worldPrint(ANext, "2.txt")
 
 
 
