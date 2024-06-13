@@ -72,20 +72,9 @@ function rule(A::Array, K::Array)
 
             S = sum(A[i-1:i+1, j-1:j+1] .* K)
 
-            Gij = 0 
-            if S < 2 || S > 3
-                Gij = -1
-            elseif S == 2 
-                Gij = 0
-            elseif S ∈ [3]
-                Gij = 1
-            end
+            Gij = Dict(0 => -1, 1 => -1, 2 => 0, 3 => 1, 4 => -1, 5 => -1, 6 => -1, 7 => -1, 8 => -1) # The Dictionary for G value (Like a discrete function) 
             
-            # Catching Exception about G value
-            if G == 2
-                throw("Something about the G value has gone wrong!!!")
-            end
-            G[i, j] = Gij
+            G[i, j] = Gij[S]
         end
     end
     
