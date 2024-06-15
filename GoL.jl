@@ -1,3 +1,6 @@
+import REPL
+terminal = REPL.Terminals.TTYTerminal(string(), stdin, stdout, stderr)
+
 # A 2D world with GoL Rules
 
     # Initializations
@@ -5,7 +8,7 @@ K = [1 1 1
      1 0 1
      1 1 1] # The weight distribution of the neighbors
 
-A0 = [0 0 0 0 0 0 0 0 0
+A0 = [0 1 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 1 0 
       0 0 1 1 1 0 0 0 0
       0 0 1 1 1 0 0 0 0
@@ -13,9 +16,9 @@ A0 = [0 0 0 0 0 0 0 0 0
       0 0 1 1 1 0 0 0 0 
       0 0 0 1 0 0 0 0 0
       0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0]# The world!
+      1 0 0 0 0 0 0 0 1]# The world!
 
-Nt = 3 # The number of time-steps
+Nt = 200 # The number of time-steps
 
     # The function for initializing a world as an Array
 worldIni(nx::Int64, ny::Int64) = zeros(Int64, nx, ny)
@@ -83,7 +86,7 @@ end
 
 
     # The function for printing the world status
-function worldPrint(world::Array, shape = "3.txt")
+function worldPrint(world::Array, time, shape = "3.txt")
     """
     Input:
         world: 
@@ -93,6 +96,11 @@ function worldPrint(world::Array, shape = "3.txt")
     Output:
         
     """
+    # Make it an animation
+    sleep(time)
+    REPL.Terminals.clear(terminal)
+
+    # Printing the number of Alive and Dead Cells 
     aliveCells = floor(Int64, sum(world))
     deadCells  = floor(Int64, size(world)[1] * size(world)[2] - aliveCells)
     print("Alive: $aliveCells \t\tDead: $deadCells\n")
@@ -106,8 +114,7 @@ function worldPrint(world::Array, shape = "3.txt")
             shapes[parse(Int64, state)] = char
         end
     end
-
-
+    
     for row in 1:size(world)[1]
 
         for col in 1:size(world)[2]
@@ -128,10 +135,49 @@ function worldRule(A::Array, K::Array)
     """
     G = zeros(size(A)[1], size(A)[2])
 
-    for i in 2:size(A)[1] - 1
-        for j in 2:size(A)[2] - 1
+    for i in 1:size(A)[1]
+        for j in 1:size(A)[2]
+            
+            # A neighbor array (3, 3)
+            neighbor = zeros(Int64, 3, 3) 
+            
+            # Neighbor positions in the world's positions relative to the calculated cell
+            iLow  = i - 1
+            iHigh = i + 1
+            jLow  = j - 1
+            jHigh = j + 1
+            
+            neighborRow = 1 # The position of rows in neighbor array
+            for worldRow in iLow:iHigh # The row position in world's position
+                neighborCol = 1 # The postion of columns in neighbor array
+                for worldCol in jLow:jHigh # The Columns postions in world's postion
+                    
+                    worldRowCopy = copy(worldRow)
+                    worldColCopy = copy(worldCol)
 
-            S = sum(A[i-1:i+1, j-1:j+1] .* K)
+                    # The periodic condition        
+                    if worldRow < 1
+                        worldRowCopy += size(A)[1]
+                    end
+                    if worldCol < 1
+                        worldColCopy += size(A)[2]
+                    end
+                    if worldRow > size(A)[1]
+                        worldRowCopy -= size(A)[1]
+                    end
+                    if worldCol > size(A)[2]
+                        worldColCopy -= size(A)[2]
+                    end
+
+                    neighbor[neighborRow, neighborCol] = A[worldRowCopy, worldColCopy]
+
+                    neighborCol += 1
+                end
+                neighborRow += 1
+            end
+            
+            # The total number of live cells in the neighbors
+            S = sum(neighbor .* K)
 
             Gij = Dict(0 => -1, 1 => -1, 2 => 0, 3 => 1, 4 => -1, 5 => -1, 6 => -1, 7 => -1, 8 => -1) # The Dictionary for G value (Like a discrete function) 
             G[i, j] = Gij[S]
@@ -164,27 +210,28 @@ end
 
 
     # A function for evolving the world
-function worldSimulation(A0::Array, K::Array, Nt::Int64, mode::String)
+function worldSimulation(A0::Array, K::Array, Nt::Int64, mode::String, speed)
     """
     Input:
-        | A0  : The Initial world (configuration)
-        | K   : The Neighbor's distribution
-        | Nt  : The number of time-steps
+        | A0    : The Initial world (configuration)
+        | K     : The Neighbor's distribution
+        | Nt    : The number of time-steps
+        | speed : The amount of time showing the next frame
     Output:
         | The worldPrint, showing the evolution of configurations 
     """
         # Printing the initial world
-    worldPrint(A0, mode)
+    worldPrint(A0, speed, mode)
         # Initialization
     G = worldRule(A0, K)
     Ai = worldCorrection(A0 + G)
-    worldPrint(Ai, mode)
+    worldPrint(Ai, speed, mode)
     
         # Updating
     for i in 2:Nt
         G   = worldRule(Ai, K)
         Ai  = worldCorrection(Ai + G)
-        worldPrint(Ai, mode)
+        worldPrint(Ai, speed, mode)
     end
     println("Do you want to save?")
     print("(y/n) > ")
@@ -209,29 +256,32 @@ function main()
     print("\t\t3. You have a file from the before and want to implement it as initial configuration (3)\n\n")
     print("* The number of time-steps and K, are in the source file, change them in the GoL.jl file.\n\n")
     print("Which one do you want to perform?\n> "); ans = readline() 
+    print("How much time do you prefer between each frames? (Recommendation: 0.1, how lower you set, faster it get!!!)\n> "); speed = parse(Float64, readline())
+
+
     if ans == "1"
-        worldSimulation(A0, K, Nt, "2.txt")
+        worldSimulation(A0, K, Nt, "2.txt", speed)
     elseif ans == "2"
         print("The number of rows    : "); rowN = parse(Int64, readline()); print("\n")
         print("The number of columns : "); colN = parse(Int64, readline()); print("\n")
         A = worldIni(rowN, colN)
-        print("What name do you prefer?\n > "); file = readline()
+        print("What name do you prefer?\n> "); file = readline()
         worldWrite(A, file)
         println("!!! Wait a second, Change the created file and then for running it, press on 'ENTER' !!!\n\n")
         
         ans = readline()
         if ans == ""
             A = worldRead(file)
-            worldSimulation(A, K, Nt, "2.txt")
+            worldSimulation(A, K, Nt, "2.txt", speed)
         end
     elseif ans == "3"
         print("Which file do you want to perform Game of Life on it?\n > "); name = readline()
         A = worldRead(name)
-        worldSimulation(A, K, Nt, "2.txt")
+        worldSimulation(A, K, Nt, "2.txt", speed)
     end
 end
 
-# worldSimulation(A0, K, Nt, "2.txt")
+# worldSimulation(A0, K, Nt, "2.txt", 0.2)
 
 main()
 
