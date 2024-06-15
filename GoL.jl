@@ -255,7 +255,7 @@ function main()
     print("\t\t2. Initialize a NxM array consisting of zeros and change the numbers manually (2)\n")
     print("\t\t3. You have a file from the before and want to implement it as initial configuration (3)\n\n")
     print("* The number of time-steps and K, are in the source file, change them in the GoL.jl file.\n\n")
-    print("Which one do you want to perform?\n> "); ans = readline() 
+    print("Which one do you want to perform?\n(1/2/3)> "); ans = readline() 
     print("How much time do you prefer between each frames? (Recommendation: 0.1, how lower you set, faster it get!!!)\n> "); speed = parse(Float64, readline())
 
 
