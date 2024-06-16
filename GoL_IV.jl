@@ -248,7 +248,7 @@ end
     # User Interface in terminal
 function main()
     """
-    The Running function
+    The Running function (The User-Interface)
     """
     print("Hello and Welcome to my little GoL.jl program.\n")
     print("There are three main ways to make initialize your first world's configuration (By world I mean an array consisting of alive, 1, and dead, 0, cells.)\n")

@@ -1,4 +1,5 @@
 import REPL
+using Plots
 terminal = REPL.Terminals.TTYTerminal(string(), stdin, stdout, stderr)
 
 # A 2D world with GoL Rules
@@ -18,7 +19,7 @@ A0 = [0 1 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0
       1 0 0 0 0 0 0 0 1]# The world!
 
-Nt = 200 # The number of time-steps
+Nt = 50 # The number of time-steps
 
     # The function for initializing a world as an Array
 worldIni(nx::Int64, ny::Int64) = zeros(Int64, nx, ny)
@@ -86,7 +87,7 @@ end
 
 
     # The function for printing the world status
-function worldPrint(world::Array, time, shape = "3.txt")
+function worldPrint(world::Array, time::Float64, shape = "3.txt")
     """
     Input:
         world: 
@@ -124,6 +125,37 @@ function worldPrint(world::Array, time, shape = "3.txt")
         print("\n")
     end
 end
+
+    # The Terminal Animation
+function worldTerminalAnime(worldTimeArray::Array, time::Float64, shape::String, Nt::Int64)
+    for t in 1:Nt
+        world = worldTimeArray[:, :, t]
+        worldPrint(world, time, shape)
+    end
+end
+
+    # The Heatmap Animation
+function worldHeatmapAnime(worldTimeArray::Array, time::Float64, Nt::Int64, name::String)
+    """
+    Input:
+        | worldTimeArray  : The world array of Arrays, World-Time
+        | time            : The time between each frame
+        | Nt              : The number of time-steps
+        | name            : The name of the file saving as 'name.gif'
+    Output:
+        | A 'name.gif' which is saved inside the current directory 
+    """
+
+    # The Animation Saving part
+    anim = @animate for t in 1:Nt
+        Plots.heatmap(worldTimeArray[end:-1:1, :, t]) # For visualization purpose, The row sections should be reversed
+
+    end
+
+    gif(anim, name, fps = 1/time)  # Number of frames per seconds = 1 / the time between each frame
+
+end
+
 
     # The Update function
 function worldRule(A::Array, K::Array)
@@ -210,45 +242,46 @@ end
 
 
     # A function for evolving the world
-function worldSimulation(A0::Array, K::Array, Nt::Int64, mode::String, speed)
+function worldSimulation(A0::Array, K::Array, Nt::Int64)
     """
     Input:
         | A0    : The Initial world (configuration)
         | K     : The Neighbor's distribution
         | Nt    : The number of time-steps
-        | speed : The amount of time showing the next frame
     Output:
-        | The worldPrint, showing the evolution of configurations 
+        | A 3D array consist of World Array and the time-step
     """
-        # Printing the initial world
-    worldPrint(A0, speed, mode)
-        # Initialization
-    G = worldRule(A0, K)
-    Ai = worldCorrection(A0 + G)
-    worldPrint(Ai, speed, mode)
-    
+        # World Array of Arrays Initialization
+    worldTimeArray = zeros(size(A0)[1], size(A0)[2], Nt)
+        # Initial Configuration in the World Array of Arrays
+    worldTimeArray[:, :, 1] = A0
+    println(1) 
         # Updating
+    G  = worldRule(A0, K)
+    Ai = worldCorrection(A0 + G)
     for i in 2:Nt
         G   = worldRule(Ai, K)
         Ai  = worldCorrection(Ai + G)
-        worldPrint(Ai, speed, mode)
+        worldTimeArray[:, :, i] = Ai
     end
-    println("Do you want to save?")
+    println(2)
+    println("Do you want to save The Last Configuration?")
     print("(y/n) > ")
     ans = readline()
-    if ans == "y"
-        print("What name do you prefer saving the file:\n > "); name = readline()
-        worldWrite(Ai, name)
+    if ans == "y" # Saving the last frame
+        print("What name do you prefer saving the Last Configuration file:\n > "); name = readline()
+        worldWrite(worldTimeArray[:, :, end], name)
     elseif ans == "n"
         println("Bye!!!")
     end
+    return worldTimeArray
 end
 
 
     # User Interface in terminal
 function main()
     """
-    The Running function
+    The Running function (The User-Interface)
     """
     print("Hello and Welcome to my little GoL.jl program.\n")
     print("There are three main ways to make initialize your first world's configuration (By world I mean an array consisting of alive, 1, and dead, 0, cells.)\n")
@@ -256,12 +289,24 @@ function main()
     print("\t\t2. Initialize a NxM array consisting of zeros and change the numbers manually (2)\n")
     print("\t\t3. You have a file from the before and want to implement it as initial configuration (3)\n\n")
     print("* The number of time-steps and K, are in the source file, change them in the GoL.jl file.\n\n")
-    print("Which one do you want to perform?\n(1/2/3)> "); ans = readline() 
+    print("Which one do you want to perform?\n(1/2/3)> "); ans = readline()
+
+
+        # Choosing between Heatmap animation or Termianl Animation
+
     print("How much time do you prefer between each frames? (Recommendation: 0.1, how lower you set, faster it get!!!)\n> "); speed = parse(Float64, readline())
 
         # The Options for performing simulation
     if ans == "1"
-        worldSimulation(A0, K, Nt, "2.txt", speed)
+        world = worldSimulation(A0, K, Nt)
+        
+        print("Terminal Animation or Heatmap Animation:\n(t/h)> "); anime = readline()
+        if anime == "t"
+            worldTerminalAnime(world, speed, "2.txt", Nt)
+        elseif anime == "h"
+            worldHeatmapAnime(world, speed, Nt, "InProgram.gif")
+        end
+
     elseif ans == "2"
         print("The number of rows    : "); rowN = parse(Int64, readline()); print("\n")
         print("The number of columns : "); colN = parse(Int64, readline()); print("\n")
@@ -271,18 +316,30 @@ function main()
         println("!!! Wait a second, Change the created file and then for running it, press on 'ENTER' !!!\n\n")
         
         ans = readline()
-        if ans == ""
+        if ans == ""    # If pressing 'ENTER', it proceeds.
             A = worldRead(file)
-            worldSimulation(A, K, Nt, "2.txt", speed)
+            world = worldSimulation(A, K, Nt)
+            print("Terminal Animation or Heatmap Animation:\n(t/h)> "); anime = readline()
+            if anime == "t"
+                worldTerminalAnime(world, speed, "2.txt", Nt)
+            elseif anime == "h"
+                worldHeatmapAnime(world, speed, Nt, "$(file).gif")
+            end
         end
     elseif ans == "3"
         print("Which file do you want to perform Game of Life on it?\n > "); name = readline()
         A = worldRead(name)
-        worldSimulation(A, K, Nt, "2.txt", speed)
+        world = worldSimulation(A, K, Nt)
+        print("Terminal Animation or Heatmap Animation:\n(t/h)> "); anime = readline()
+        if anime == "t"
+            worldTerminalAnime(world, speed, "2.txt", Nt)
+        elseif anime == "h"
+            worldHeatmapAnime(world, speed, Nt, "$(name).gif")
+        end
     end
 end
 
-# worldSimulation(A0, K, Nt, "2.txt", 0.2)
+# worldSimulation(A0, K, Nt)
 
 main()
 
