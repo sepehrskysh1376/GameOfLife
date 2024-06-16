@@ -15,10 +15,10 @@
     1.  1.txt, <br>
         2.txt, <br>
         3.txt: text files that contain the Unicode characters for each types of cells (Alive or Dead) which are like this
-    {
+        ```
         1 \<the Alive character\> <br>
         0 \<the Dead character\>
-    }
+        ```
     2.  2005.03742.pdf          : which is the Article (From Bert Wang-Chak Chan) that inspire me to implement this unique kind of algorithm for Game of Life simulation.
     3.  Gospers_glider_gun.gif  : Just a gif file for visualization purposes in my GitHub page.
     4.  GoL_CV.jl               : The first main program which contain the pre-Compiled version of the Game of Life simulation
