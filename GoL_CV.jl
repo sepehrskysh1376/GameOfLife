@@ -245,6 +245,7 @@ function worldSimulation(A0::Array, K::Array, Nt::Int64, mode::String, speed)
 end
 
 
+    # User Interface in terminal
 function main()
     """
     The Running function
@@ -258,7 +259,7 @@ function main()
     print("Which one do you want to perform?\n(1/2/3)> "); ans = readline() 
     print("How much time do you prefer between each frames? (Recommendation: 0.1, how lower you set, faster it get!!!)\n> "); speed = parse(Float64, readline())
 
-
+        # The Options for performing simulation
     if ans == "1"
         worldSimulation(A0, K, Nt, "2.txt", speed)
     elseif ans == "2"
