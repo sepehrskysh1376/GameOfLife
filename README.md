@@ -14,7 +14,7 @@
 - The files are:
     1.  1.txt, <br>
         2.txt, <br>
-        3.txt:&nbsp;&nbsp;&nbsp;&nbsp; text files that contain the Unicode characters for each types of cells (Alive or Dead) which are like this
+        3.txt                   :text files that contain the Unicode characters for each types of cells (Alive or Dead) which are like this
         ```
         1 <the Alive character> 
         0 <the Dead character>
@@ -34,10 +34,10 @@
 
 ## Rules
 - It is Arbitrary, however, there is an standard set of rules:
-1. Any live cell with fewer than two live neighbors dies, as if by underpopulation.
-2. Any live cell with two or three live neighbors lives on to the next generation.
-3. Any live cell with more than three live neighbors dies, as if by overpopulation.
-4. Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+    1. Any live cell with fewer than two live neighbors dies, as if by underpopulation.
+    2. Any live cell with two or three live neighbors lives on to the next generation.
+    3. Any live cell with more than three live neighbors dies, as if by overpopulation.
+    4. Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
 
 ## Explaination of underlying functions
 - There are three entities:
@@ -55,59 +55,77 @@
 
 #### GoL_IV.jl: (The Integrated Version)
 - Run it like this:
-    > \$ julia GoL_IV.jl
+    ```
+    $ julia GoL_IV.jl
+    ```
 - The following passage comes up:
-    > Hello and Welcome to my little GoL.jl program. <br>
-    > There are three main ways to make initialize your first world's configuration (By world I mean an array consisting of alive, 1, and dead, 0, cells.) <br>
-    >	1. You change the configuration inside the file which the variable name is 'A' (1) <br>
-    >	2. Initialize a NxM array consisting of zeros and change the numbers manually (2) <br>
-    >	3. You have a file from the before and want to implement it as initial configuration (3) <br>
-    > <br>
-    > * The number of time-steps and K, are in the source file, change them in the GoL.jl file. <br>
+    ```
+    Hello and Welcome to my little GoL.jl program.
+    There are three main ways to make initialize your first world's configuration (By world I mean an array consisting of alive, 1, and dead, 0, cells.)
+    	1. You change the configuration inside the file which the variable name is 'A' (1) 
+    	2. Initialize a NxM array consisting of zeros and change the numbers manually (2) 
+    	3. You have a file from the before and want to implement it as initial configuration (3)
+    
+    * The number of time-steps and K, are in the source file, change them in the GoL.jl file.
 
-    > Which one do you want to perform? <br>
-    >(1/2/3)\> <br> 
+    Which one do you want to perform? 
+    (1/2/3)> 
+    ```
 
 - Between three options, select one of them (For test you can run the first one).
 - Set your frame rate here:
-    > How much time do you prefer between each frames? (Recommendation: 0.1, how lower you set, faster it get!!!)<br>
-    >\> <br> 
+    ```
+    How much time do you prefer between each frames? (Recommendation: 0.1, how lower you set, faster it get!!!)
+    > 
+    ```
 - The second and third options want names too. So give them the name of your saving file or the file the program wants to read from.
 - The second option also create an empty (full of zeros) array for you which when asked you to fill it up, do not enter anything in the terminal. Go and change your configuration file and then press *ENTER*.
 - You can see the **Simulation**.
 - At the end, it will ask you if you want to save the final configuration.
-    > Do you want to save The Last Configuration? <br>
-    > (y/n)>
+    ```
+    Do you want to save The Last Configuration? <br>
+    (y/n)>
+    ```
 - Enjoy!!!
 
 #### GoL_CV.jl: (The Compiler Version)
 - Run it like this:
-    > \$ julia GoL_CV.jl
+    ```
+    $ julia GoL_CV.jl
+    ```
 - The following passage comes up:
-    > Hello and Welcome to my little GoL.jl program. <br>
-    > There are three main ways to make initialize your first world's configuration (By world I mean an array consisting of alive, 1, and dead, 0, cells.) <br>
-    >	1. You change the configuration inside the file which the variable name is 'A' (1) <br>
-    >	2. Initialize a NxM array consisting of zeros and change the numbers manually (2) <br>
-    >	3. You have a file from the before and want to implement it as initial configuration (3) <br>
-    > <br>
-    > * The number of time-steps and K, are in the source file, change them in the GoL.jl file. <br>
+    ```
+    Hello and Welcome to my little GoL.jl program.
+    There are three main ways to make initialize your first world's configuration (By world I mean an array consisting of alive, 1, and dead, 0, cells.)
+        1. You change the configuration inside the file which the variable name is 'A' (1)
+    	2. Initialize a NxM array consisting of zeros and change the numbers manually (2)
+    	3. You have a file from the before and want to implement it as initial configuration (3)
+    
+    * The number of time-steps and K, are in the source file, change them in the GoL.jl file.
 
-    > Which one do you want to perform? <br>
-    >(1/2/3)\> <br> 
-
-- Between three options, select one of them (For test you can run the first one).
+    Which one do you want to perform? 
+    (1/2/3)> 
+    ```
+    - Between three options, select one of them (For test you can run the first one).
 - Set your frame rate here:
-    > How much time do you prefer between each frames? (Recommendation: 0.1, how lower you set, faster it get!!!)<br>
-    >\> <br> 
+    ```
+    How much time do you prefer between each frames? (Recommendation: 0.1, how lower you set, faster it get!!!)
+    > 
+    ```
 - The second and third options want names too. So give them the name of your saving file or the file the program wants to read from.
 - The second option also create an empty (full of zeros) array for you which when asked you to fill it up, do not enter anything in the terminal. Go and change your configuration file and then press *ENTER*.
 - **Compile the simulation** of the Game of Life.
 - Ask you if you want to save the final configuration.
-    > Do you want to save The Last Configuration? <br>
-    > (y/n)>
+    ```
+    Do you want to save The Last Configuration?
+    (y/n)>
+    ```
+    
 - Ask you if you want to Animate the configurations in the **Terminal** or in **Heatmap** from Plots.jl package.
-    > Terminal Animation or Heatmap Animation: <br>
-    > (t/h)> 
+    ``` 
+    Terminal Animation or Heatmap Animation:
+    (t/h)> 
+    ```
 - If you choose 't', it Shows the simulation in the *Terminal* and if you choose 'h', it save the *namefile.gif* file in the current directory.
 - Enjoy!!!
 
