@@ -1,114 +1,114 @@
-import REPL
-using Plots
-terminal = REPL.Terminals.TTYTerminal(string(), stdin, stdout, stderr)
+    import REPL
+    using Plots
+    terminal = REPL.Terminals.TTYTerminal(string(), stdin, stdout, stderr)
 
-# A 2D world with GoL Rules
+    # A 2D world with GoL Rules
 
-    # Initializations
-K = [1 1 1 
-     1 0 1
-     1 1 1] # The weight distribution of the neighbors
+        # Initializations
+    K = [1 1 1 
+         1 0 1
+         1 1 1] # The weight distribution of the neighbors
 
-A0 = [0 1 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 1 0 
-      0 0 1 1 1 0 0 0 0
-      0 0 1 1 1 0 0 0 0
-      0 0 0 1 0 0 0 0 0
-      0 0 1 1 1 0 0 0 0 
-      0 0 0 1 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0
-      1 0 0 0 0 0 0 0 1]# The world!
+    A0 = [0 1 0 0 0 0 0 0 0
+          0 0 0 0 0 0 0 1 0 
+          0 0 1 1 1 0 0 0 0
+          0 0 1 1 1 0 0 0 0
+          0 0 0 1 0 0 0 0 0
+          0 0 1 1 1 0 0 0 0 
+          0 0 0 1 0 0 0 0 0
+          0 0 0 0 0 0 0 0 0
+          1 0 0 0 0 0 0 0 1]# The world!
 
-Nt = 50 # The number of time-steps
+    Nt = 50 # The number of time-steps
 
-    # The function for initializing a world as an Array
-worldIni(nx::Int64, ny::Int64) = zeros(Int64, nx, ny)
+        # The function for initializing a world as an Array
+    worldIni(nx::Int64, ny::Int64) = zeros(Int64, nx, ny)
 
-# A = worldIni(10, 10) # The world! 
+    # A = worldIni(10, 10) # The world! 
 
 
-    # A funciton for Reading the world from a txt file 
-function worldRead(file)
-    """
-    Input:
-        | A file consisting of 0 and 1s like this:
-        1 0 0 0
-        0 1 1 1
-        0 1 0 0
-        1 1 0 0
-        * Each rows is seperated by space and each columns is seperated by "ENTER" or the next line
-        * Not reading the empty lines
-    Output:
-        | An array consisting of the world
-    """
-    inp = readlines(file) # Reading the file    
-    println(inp)
-    rowN = length(inp)    # Number of rows
-    colN = length(split(inp[1], " ")) # Number of columns
-    world = zeros(Int64, rowN, colN) # World initialization
+        # A funciton for Reading the world from a txt file 
+    function worldRead(file)
+        """
+        Input:
+            | A file consisting of 0 and 1s like this:
+            1 0 0 0
+            0 1 1 1
+            0 1 0 0
+            1 1 0 0
+            * Each rows is seperated by space and each columns is seperated by "ENTER" or the next line
+            * Not reading the empty lines
+        Output:
+            | An array consisting of the world
+        """
+        inp = readlines(file) # Reading the file    
+        println(inp)
+        rowN = length(inp)    # Number of rows
+        colN = length(split(inp[1], " ")) # Number of columns
+        world = zeros(Int64, rowN, colN) # World initialization
 
-    for r in 1:length(inp)
-        row = split(inp[r], " ")
-        for c in 1:length(row)
-            world[r, c] = parse(Int64, row[c])
-        end
-    end
-    return world
-end
-
-function worldWrite(A::Array, name)
-    """
-    Input:
-        | A world Array
-    Output:
-        | Save the Array in the format of 0 and 1s. For example:
-        1 0 0 0
-        0 1 1 1
-        0 1 0 0
-        1 1 0 0
-    """
-    file = open(name, "w")
-
-    row, col = size(A)
-    for r in 1:row
-        for c in 1:col
-            write(file, "$(A[r, c])")
-            if c != col
-                write(file, " ")
+        for r in 1:length(inp)
+            row = split(inp[r], " ")
+            for c in 1:length(row)
+                world[r, c] = parse(Int64, row[c])
             end
         end
-        if r != row
-            write(file, "\n")
-        end
+        return world
     end
 
-    close(file)
-end
+    function worldWrite(A::Array, name)
+        """
+        Input:
+            | A world Array
+        Output:
+            | Save the Array in the format of 0 and 1s. For example:
+            1 0 0 0
+            0 1 1 1
+            0 1 0 0
+            1 1 0 0
+        """
+        file = open(name, "w")
+
+        row, col = size(A)
+        for r in 1:row
+            for c in 1:col
+                write(file, "$(A[r, c])")
+                if c != col
+                    write(file, " ")
+                end
+            end
+            if r != row
+                write(file, "\n")
+            end
+        end
+
+        close(file)
+    end
 
 
-    # The function for printing the world status
-function worldPrint(world::Array, time::Float64, shape = "3.txt")
-    """
-    Input:
-        world: 
-            | An array which consist of 1 for full cell and 0 for empty cell
-        shape:
-            | An argument which is a file consisting of the shapes using for printing them.
-    Output:
-        
-    """
-    # Make it an animation
-    sleep(time)
-    REPL.Terminals.clear(terminal)
+        # The function for printing the world status
+    function worldPrint(world::Array, time::Float64, shape = "3.txt")
+        """
+        Input:
+            world: 
+                | An array which consist of 1 for full cell and 0 for empty cell
+            shape:
+                | An argument which is a file consisting of the shapes using for printing them.
+        Output:
+            
+        """
+        # Make it an animation
+        sleep(time)
+        REPL.Terminals.clear(terminal)
 
-    # Printing the number of Alive and Dead Cells 
-    aliveCells = floor(Int64, sum(world))
-    deadCells  = floor(Int64, size(world)[1] * size(world)[2] - aliveCells)
-    print("Alive: $aliveCells \t\tDead: $deadCells\n")
-    print("--------------------------------------\n")
+        # Printing the number of Alive and Dead Cells 
+        aliveCells = floor(Int64, sum(world))
+        deadCells  = floor(Int64, size(world)[1] * size(world)[2] - aliveCells)
+        print("Alive: $aliveCells \t\tDead: $deadCells\n")
+        print("--------------------------------------\n")
 
-    shapeFile = readlines(shape)
-    shapes = Dict(0 => "ERROR", 1 => "ERROR")
+        shapeFile = readlines(shape)
+        shapes = Dict(0 => "ERROR", 1 => "ERROR")
     for i in shapeFile
         state, char = split(i, " ")
         if parse(Int64, state) in keys(shapes)
@@ -266,10 +266,10 @@ function worldSimulation(A0::Array, K::Array, Nt::Int64)
     end
     println(2)
     println("Do you want to save The Last Configuration?")
-    print("(y/n) > ")
+    print("(y/n)> ")
     ans = readline()
     if ans == "y" # Saving the last frame
-        print("What name do you prefer saving the Last Configuration file:\n > "); name = readline()
+        print("What name do you prefer saving the Last Configuration file:\n> "); name = readline()
         worldWrite(worldTimeArray[:, :, end], name)
     elseif ans == "n"
         println("Bye!!!")
@@ -327,7 +327,7 @@ function main()
             end
         end
     elseif ans == "3"
-        print("Which file do you want to perform Game of Life on it?\n > "); name = readline()
+        print("Which file do you want to perform Game of Life on it?\n> "); name = readline()
         A = worldRead(name)
         world = worldSimulation(A, K, Nt)
         print("Terminal Animation or Heatmap Animation:\n(t/h)> "); anime = readline()

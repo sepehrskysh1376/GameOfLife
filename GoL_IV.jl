@@ -234,10 +234,10 @@ function worldSimulation(A0::Array, K::Array, Nt::Int64, mode::String, speed)
         worldPrint(Ai, speed, mode)
     end
     println("Do you want to save?")
-    print("(y/n) > ")
+    print("(y/n)> ")
     ans = readline()
     if ans == "y"
-        print("What name do you prefer saving the file:\n > "); name = readline()
+        print("What name do you prefer saving the file:\n> "); name = readline()
         worldWrite(Ai, name)
     elseif ans == "n"
         println("Bye!!!")
@@ -276,7 +276,7 @@ function main()
             worldSimulation(A, K, Nt, "2.txt", speed)
         end
     elseif ans == "3"
-        print("Which file do you want to perform Game of Life on it?\n > "); name = readline()
+        print("Which file do you want to perform Game of Life on it?\n> "); name = readline()
         A = worldRead(name)
         worldSimulation(A, K, Nt, "2.txt", speed)
     end

@@ -10,7 +10,7 @@
 - It is Turing complete and can simulate a universal constructor or any other Turing machine.
 
 ## Rules
-- Arbitrary
+- It is Arbitrary, however, there is an standard set of rules:
 1. Any live cell with fewer than two live neighbors dies, as if by underpopulation.
 2. Any live cell with two or three live neighbors lives on to the next generation.
 3. Any live cell with more than three live neighbors dies, as if by overpopulation.
@@ -30,9 +30,9 @@
     1. **GoL_IV.jl** ===========> Integrated Version of the Game of Life program  (Calculate a frame and Show the result of that frame afterward)
     2. **GoL_CV.jl** ===========> Compiled  Version  of  Game  of  Life  program  (Calculate the whole simulation and then Show the results)
 
-#### GoL_IV.jl: 
+#### GoL_IV.jl: (The Integrated Version)
 - Run it like this:
-    > \$ julia GoL.jl
+    > \$ julia GoL_IV.jl
 - The following passage comes up:
     > Hello and Welcome to my little GoL.jl program. <br>
     > There are three main ways to make initialize your first world's configuration (By world I mean an array consisting of alive, 1, and dead, 0, cells.) <br>
@@ -53,10 +53,13 @@
 - The second option also create an empty (full of zeros) array for you which when asked you to fill it up, do not enter anything in the terminal. Go and change your configuration file and then press *ENTER*.
 - You can see the **Simulation**.
 - At the end, it will ask you if you want to save the final configuration.
+    > Do you want to save The Last Configuration? <br>
+    > (y/n)>
+- Enjoy!!!
 
-#### GoL_CV.jl:
+#### GoL_CV.jl: (The Compiler Version)
 - Run it like this:
-    > \$ julia GoL.jl
+    > \$ julia GoL_CV.jl
 - The following passage comes up:
     > Hello and Welcome to my little GoL.jl program. <br>
     > There are three main ways to make initialize your first world's configuration (By world I mean an array consisting of alive, 1, and dead, 0, cells.) <br>
@@ -75,8 +78,16 @@
     >\> <br> 
 - The second and third options want names too. So give them the name of your saving file or the file the program wants to read from.
 - The second option also create an empty (full of zeros) array for you which when asked you to fill it up, do not enter anything in the terminal. Go and change your configuration file and then press *ENTER*.
-- You can see the **Simulation**.
-- At the end, it will ask you if you want to save the final configuration.
+- **Compile the simulation** of the Game of Life.
+- Ask you if you want to save the final configuration.
+    > Do you want to save The Last Configuration? <br>
+    > (y/n)>
+- Ask you if you want to Animate the configurations in the **Terminal** or in **Heatmap** from Plots.jl package.
+    > Terminal Animation or Heatmap Animation: <br>
+    > (t/h)> 
+- If you choose 't', it Shows the simulation in the *Terminal* and if you choose 'h', it save the *namefile.gif* file in the current directory.
+- Enjoy!!!
+
 
 
 
