@@ -128,6 +128,15 @@ end
 
     # The Terminal Animation
 function worldTerminalAnime(worldTimeArray::Array, time::Float64, shape::String, Nt::Int64)
+    """
+    Input: 
+        | worldTimeArray  : A World Array of Arrays (World (2D world) - Time)
+        | time            : The Time between each frames 
+        | shape           : The Mode it use to display the worlds
+        | Nt              : The Number of Time-steps
+    Output:
+        | Printing via 'worldPrint' inside the terminal and make it as animation
+    """
     for t in 1:Nt
         world = worldTimeArray[:, :, t]
         worldPrint(world, time, shape)

@@ -12,25 +12,22 @@
 ## Files & Folders
 - There is no Folders yet!!!
 - The files are:
-    1.  1.txt, <br>
-        2.txt, <br>
-        3.txt                   :text files that contain the Unicode characters for each types of cells (Alive or Dead) which are like this
+   | Files | Description |
+   | ----- | ----------- |
+   | 1.txt, 2.txt, 3.txt | text files that contain the Unicode characters for each types of cells (Alive or Dead) which are like this |
         ```
         1 <the Alive character> 
         0 <the Dead character>
         ```
-    2.  2005.03742.pdf          : which is the Article (From Bert Wang-Chak Chan) that inspire me to implement this unique kind of algorithm for Game of Life simulation.
-    3.  Gospers_glider_gun.gif  : Just a gif file for visualization purposes in my GitHub page.
-    4.  GoL_CV.jl               : The first main program which contain the pre-Compiled version of the Game of Life simulation
-    5.  GoL_IV.jl               : The second main program which contain the Integrated version of the Game of Life simulation
-    6.  GoL.gif, <br>
-        InProgram.gif, <br> 
-        ini.txt.gif             : The examples of output Gif files which the GoL_CV.jl can give us
-    7.  final.txt, <br>
-        ini.txt, <br>
-        input.txt, <br>
-        input2.txt              : The input examples which works for both GoL_CV.jl and GoL.IV.jl 
-    8.  README.md               : The MarkDown file for explaining all these things.
+    | Files | Description |
+    | ----- | ----------- |
+    | 2005.03742.pdf | which is the Article (From Bert Wang-Chak Chan) that inspire me to implement this unique kind of algorithm for Game of Life simulation. |
+    | Gospers_glider_gun.gif | Just a gif file for visualization purposes in my GitHub page. |
+    | GoL_CV.jl | The first main program which contain the pre-Compiled version of the Game of Life simulation |
+    | GoL_IV.jl | The second main program which contain the Integrated version of the Game of Life simulation
+    | GoL.gif, InProgram.gif, ini.txt.gif | The examples of output Gif files which the GoL_CV.jl can give us |
+    | final.txt, glider.txt, input.txt, input2.txt | The input examples which works for both GoL_CV.jl and GoL.IV.jl |
+    | README.md | The MarkDown file for explaining all these things. |
 
 ## Rules
 - It is Arbitrary, however, there is an standard set of rules:
