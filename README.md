@@ -15,10 +15,10 @@
    | Files | Description |
    | ----- | ----------- |
    | 1.txt, 2.txt, 3.txt | text files that contain the Unicode characters for each types of cells (Alive or Dead) which are like this |
-        ```
-        1 <the Alive character> 
-        0 <the Dead character>
-        ```
+    ```
+    1 <the Alive character> 
+    0 <the Dead character>
+    ```
     | Files | Description |
     | ----- | ----------- |
     | 2005.03742.pdf | which is the Article (From Bert Wang-Chak Chan) that inspire me to implement this unique kind of algorithm for Game of Life simulation. |
