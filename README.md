@@ -21,7 +21,7 @@
     ```
     | Files | Description |
     | ----- | ----------- |
-    | 2005.03742.pdf | which is the Article (From Bert Wang-Chak Chan) that inspire me to implement this unique kind of algorithm for Game of Life simulation. |
+    | 2005.03742.pdf, 1111.1564v2.pdf | which is the Article (From Bert Wang-Chak Chan and Stephan Rafler) that inspire me to implement this unique kind of algorithm for Game of Life simulation. |
     | Gospers_glider_gun.gif | Just a gif file for visualization purposes in my GitHub page. |
     | GoL_CV.jl | The first main program which contain the pre-Compiled version of the Game of Life simulation |
     | GoL_IV.jl | The second main program which contain the Integrated version of the Game of Life simulation
